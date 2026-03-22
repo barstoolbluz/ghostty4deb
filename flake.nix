@@ -61,6 +61,12 @@
           "dbus-1"
           "systemd"
           "metainfo"
+          "locale"
+          "bat"
+          "kio"
+          "nautilus-python"
+          "nvim"
+          "vim"
         ];
 
         # Terminfo: the main package's share/terminfo is empty; the xterm-ghostty
