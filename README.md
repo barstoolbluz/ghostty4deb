@@ -158,7 +158,8 @@ alongside the full application.
 ## Limitations
 
 - **x86_64 only** — architecture is hardcoded. Adapting for aarch64 requires
-  changing `system`, `debArch`, `libDir`, and `interpreter`.
+  changing `system`, `debArch`, `libDir`, and `interpreter`. This is not
+  necessarily a huge lift. But documenting this here in any case.
 - **Terminfo**: bundles `xterm-ghostty` (which ghostty sets as `$TERM`) but not
   `ghostty` (already provided by `ncurses-term`, would conflict on install).
 - **glibc >= 2.38 required** — the nix-built libraries reference symbols up to
