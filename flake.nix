@@ -79,6 +79,8 @@
         # (under terminfo/g/).
         extraShareCopies = [
           { src = "${pkgs.ghostty.terminfo}/share/terminfo/x"; dst = "terminfo/x"; }
+          # Bundle JetBrains Mono (ghostty's default font) as a system font
+          { src = "${pkgs.jetbrains-mono}/share/fonts/truetype"; dst = "fonts/truetype/jetbrains-mono"; }
         ];
 
         # Note: "terminfo" omitted from shareFiles to avoid conflict with ncurses-term
@@ -89,6 +91,20 @@
         longDescription = "A fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.\n .\n Built from source using Nix with bundled GTK4 and library dependencies.\n Uses the system glibc and GPU drivers for hardware compatibility.";
         depends = [ "libc6 (>= 2.38)" "dbus" "fontconfig" "xdg-utils" ];
         recommends = [ "fonts-noto-color-emoji" ];
+
+        postinst = ''
+          #!/bin/sh
+          set -e
+          if command -v update-desktop-database >/dev/null 2>&1; then
+            update-desktop-database -q /usr/share/applications 2>/dev/null || true
+          fi
+          if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+            gtk-update-icon-cache -q /usr/share/icons/hicolor 2>/dev/null || true
+          fi
+          if command -v fc-cache >/dev/null 2>&1; then
+            fc-cache -f /usr/share/fonts/truetype/jetbrains-mono 2>/dev/null || true
+          fi
+        '';
       };
 
     in
