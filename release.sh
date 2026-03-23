@@ -5,22 +5,33 @@
 #   ./release.sh              # Build current pinned version
 #   ./release.sh v1.3.1       # Build a specific version
 #   ./release.sh latest       # Detect and build the latest stable tag
+#   ./release.sh --update v1.3.1  # Replace existing release if one exists
 #
 set -euo pipefail
 
 REPO="ghostty-org/ghostty"
 
+# Parse arguments — separate --update flag from version
+UPDATE=false
+VERSION_ARG=""
+for arg in "$@"; do
+    case "$arg" in
+        --update) UPDATE=true ;;
+        *) VERSION_ARG="$arg" ;;
+    esac
+done
+
 # Determine version
-if [ "${1:-}" = "latest" ]; then
+if [ "$VERSION_ARG" = "latest" ]; then
     VERSION=$(git ls-remote --tags "https://github.com/$REPO.git" \
         | grep -oP 'refs/tags/v\K[0-9]+\.[0-9]+\.[0-9]+$' \
         | sort -V \
         | tail -1)
     TAG="v$VERSION"
     echo "Latest stable: $TAG"
-elif [ -n "${1:-}" ]; then
-    TAG="$1"
-    VERSION="${TAG#v}"
+elif [ -n "$VERSION_ARG" ]; then
+    VERSION="${VERSION_ARG#v}"
+    TAG="v$VERSION"
 else
     # Use whatever's in flake.nix
     TAG=$(grep 'ghostty.url' flake.nix | grep -oP 'v[0-9]+\.[0-9]+\.[0-9]+')
@@ -65,6 +76,14 @@ if [[ "$confirm" =~ ^[Yy]$ ]]; then
     # Push
     git push origin main
     git push origin "$TAG" --force
+
+    # Delete existing release if --update was requested
+    if gh release view "$TAG" &>/dev/null; then
+        if [ "$UPDATE" = true ]; then
+            echo "==> Deleting existing release $TAG..."
+            gh release delete "$TAG" --yes
+        fi
+    fi
 
     # Create GitHub release with the .deb attached
     gh release create "$TAG" \
