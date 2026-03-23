@@ -61,9 +61,12 @@
       }
     },
     "nix-to-deb": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
       "locked": {
-        "lastModified": 1774145247,
-        "narHash": "sha256-UbS4G9ie657CeT1r7UX+bPeySgVgtM423werhM9EnYs=",
+        "lastModified": 1774289693,
+        "narHash": "sha256-DKBg1ondEFNhlCxjRYlFs5C7cx8J1Pvbs4/UPLYA9Ps=",
         "path": "/home/daedalus/dev/nix-to-deb",
         "type": "path"
       },
@@ -87,6 +90,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1773821835,
+        "narHash": "sha256-TJ3lSQtW0E2JrznGVm8hOQGVpXjJyXY2guAxku2O9A4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "b40629efe5d6ec48dd1efba650c797ddbd39ace0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1773840656,
         "narHash": "sha256-9tpvMGFteZnd3gRQZFlRCohVpqooygFuy9yjuyRL2C0=",
         "owner": "nixos",
@@ -105,7 +124,7 @@
       "inputs": {
         "ghostty": "ghostty",
         "nix-to-deb": "nix-to-deb",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       }
     },
     "systems": {
