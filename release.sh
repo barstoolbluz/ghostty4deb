@@ -57,7 +57,8 @@ if [ -z "$DEB" ]; then
     exit 1
 fi
 
-DEB_NAME="ghostty_${VERSION}_amd64.deb"
+DEB_ARCH=$(dpkg --print-architecture 2>/dev/null || uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
+DEB_NAME="ghostty_${VERSION}_${DEB_ARCH}.deb"
 echo "==> Built: $DEB ($DEB_NAME)"
 echo ""
 
@@ -77,18 +78,23 @@ if [[ "$confirm" =~ ^[Yy]$ ]]; then
     git push origin main
     git push origin "$TAG" --force
 
-    # Delete existing release if --update was requested
+    # Handle existing release: upload to it, replace it, or create new
     if gh release view "$TAG" &>/dev/null; then
         if [ "$UPDATE" = true ]; then
             echo "==> Deleting existing release $TAG..."
             gh release delete "$TAG" --yes
+        else
+            echo "==> Release $TAG exists. Uploading $DEB_NAME..."
+            gh release upload "$TAG" "$DEB#$DEB_NAME" --clobber
+            echo "==> Uploaded to: https://github.com/$(git remote get-url origin | sed 's|.*github.com[:/]||;s|\.git$||')/releases/tag/$TAG"
+            exit 0
         fi
     fi
 
     # Create GitHub release with the .deb attached
     gh release create "$TAG" \
         --title "Ghostty $VERSION" \
-        --notes "Ghostty $VERSION packaged as a self-contained \`.deb\` for Debian/Ubuntu (amd64).
+        --notes "Ghostty $VERSION packaged as a self-contained \`.deb\` for Debian/Ubuntu (${DEB_ARCH}).
 
 ## Install
 

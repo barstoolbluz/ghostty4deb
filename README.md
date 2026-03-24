@@ -1,7 +1,7 @@
 # Ghostty .deb Releases
 
 Pre-built `.deb` packages of [Ghostty](https://ghostty.org) for Debian/Ubuntu
-(amd64). Download from
+(amd64, arm64). Download from
 [Releases](https://github.com/barstoolbluz/package-ghostty-for-deb/releases)
 or build from source with Nix.
 
@@ -29,7 +29,7 @@ and GPU drivers**, giving you the best of both worlds.
 gh release download --repo barstoolbluz/package-ghostty-for-deb -p '*.deb'
 
 # Install
-sudo dpkg -i ghostty_*_amd64.deb
+sudo dpkg -i ghostty_*_$(dpkg --print-architecture).deb
 ```
 
 ## Build from Source
@@ -37,7 +37,7 @@ sudo dpkg -i ghostty_*_amd64.deb
 ```bash
 # Requires nix with flakes enabled
 nix build .
-sudo dpkg -i result/ghostty_*_amd64.deb
+sudo dpkg -i result/ghostty_*_$(dpkg --print-architecture).deb
 ```
 
 No `--impure` flag needed. No NixGL. No Flox workarounds.
@@ -182,9 +182,8 @@ alongside the full application.
 
 ## Limitations
 
-- **x86_64 only** — architecture is hardcoded. Adapting for aarch64 requires
-  changing `system`, `debArch`, `libDir`, and `interpreter`. This is not
-  necessarily a huge lift. But documenting this here in any case.
+- **x86_64 and aarch64** — both architectures are supported. `nix build .`
+  produces the correct `.deb` for the current machine. No cross-compilation.
 - **Terminfo**: bundles `xterm-ghostty` (which ghostty sets as `$TERM`) but not
   `ghostty` (already provided by `ncurses-term`, would conflict on install).
 - **glibc >= 2.38 required** — the nix-built libraries reference symbols up to

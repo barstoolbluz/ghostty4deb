@@ -65,11 +65,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1774292862,
-        "narHash": "sha256-TswgTY1lYCDV1SHfP19SaGZ42AoZP+1TM/AMF8aCxC0=",
+        "lastModified": 1774377553,
+        "narHash": "sha256-MPG2/nx4LkcKQj8vvMdLHjyECX2Yg9xq51ARIZGCo7o=",
         "owner": "barstoolbluz",
         "repo": "nix2deb",
-        "rev": "c6b14999e37be9d2f749ed0b72f07147ab530cf2",
+        "rev": "79ac4455b7e1fd23cf9e67e077050ad2a13c6980",
         "type": "github"
       },
       "original": {
