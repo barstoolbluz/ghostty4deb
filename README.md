@@ -82,10 +82,10 @@ No `--impure` flag needed. No NixGL. No Flox workarounds.
 
 ## How It Works
 
-The build uses [nix-to-deb](https://github.com/barstoolbluz/nix2deb), a generic function that takes any
-nix package and produces a `.deb`. The ghostty-specific configuration is in
-`flake.nix`; all the bundling, patching, and packaging logic lives in
-`nix-to-deb`.
+The build uses [nix2deb](https://github.com/barstoolbluz/nix2deb), a Nix flake
+for packaging nix-built applications as `.deb` files. The ghostty-specific
+configuration is in `flake.nix`; all the bundling, patching, and packaging
+logic lives in nix2deb.
 
 The function does four things:
 
@@ -200,6 +200,6 @@ alongside the full application.
 
 ## The Packaging System
 
-This repo uses [nix-to-deb](https://github.com/barstoolbluz/nix2deb), a
-generic function for packaging any nix-built application as a `.deb`. See
+This repo uses [nix2deb](https://github.com/barstoolbluz/nix2deb), a Nix flake
+for packaging nix-built applications as `.deb` files. See
 [CLAUDE.md](CLAUDE.md) for a detailed writeup of the underlying technique.
